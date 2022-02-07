@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Canvas Animation - Radar</title>
+
+    <style>
+        #my-canvas {
+            border: #cacaca 1px solid;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="my-canvas" width="400" height="300px">
+        Your web browser does not suport canvas element
+    </canvas>
+
+    <script>
+
+
+        window.onload = init;
+
+        function init() {
+            let myCanvas = document.getElementById("my-canvas");
+
+            
+
+
+            
+            if (myCanvas.getContext) {
+                let ctx = myCanvas.getContext('2d');
+
+                update(ctx);
+
+            } else {
+                alert("Canvas is not suported");
+            }
+        }
+
+let angle = 0;
+        function update(ctx) {
+
+            ctx.save();
+
+            ctx.clearRect(0, 0, 400, 300)
+
+            //circle
+            ctx.beginPath();
+            ctx.lineWidth = 5;
+            ctx.fillStyle = 'grey';
+            ctx.strokeStyle = 'rgb(20, 20, 100)';
+            ctx.shadowOffsetX = 2;
+            ctx.shadowOffsetY = 2;
+            ctx.shadowBlur = 8;
+            ctx.shadowColor = 'rgba(0, 0, 200, 0.4)';
+            ctx.arc(200, 150, 120, 0, 2*Math.PI);
+            ctx.closePath();
+            ctx.stroke();
+            ctx.fill();
+
+            ctx.translate(200, 150);
+            ctx.rotate((Math.PI/100)*angle);
+            ctx.translate(-200, -150);
+         
+
+            //line
+            ctx.beginPath();
+            ctx.moveTo(200, 150);
+            ctx.lineTo(200, 30);
+            ctx.closePath();
+            ctx.stroke();
+
+            //text
+            let textToDraw = 'Radar';
+
+            
+
+            ctx.restore();
+            angle ++;
+
+            requestAnimationFrame(function(){
+                update(ctx);
+            })
+
+            //crtanje texta
+            ctx.font = 'bold 36px sans-serif';
+            ctx.fillStyle = 'rgb(20, 20, 100)';
+
+            text = ctx.measureText(textToDraw);
+            console.log(text.width); 
+
+            ctx.fillText(textToDraw, 10, 50);
+
+        }
+
+
+   
+
+    </script>
+</body>
+
+</html>
